@@ -1,4 +1,3 @@
-const d3 = require("d3");
 /**
  * Welcome to the Looker Visualization Builder! Please refer to the following resources 
  * to help you write your visualization:
