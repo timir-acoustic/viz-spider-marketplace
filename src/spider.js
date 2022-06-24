@@ -1,4 +1,3 @@
-
 /**
  * Welcome to the Looker Visualization Builder! Please refer to the following resources 
  * to help you write your visualization:
@@ -782,6 +781,9 @@ const visObject = {
 			title: "No results.",
 			message: ""
 		})
+
+		// Display no results message
+		d3.select('#vis').text('No Results');
 		doneRendering();
 		return;
 	}
