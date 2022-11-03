@@ -7,32 +7,33 @@
 
 function RadarChart(id, data, options, moreData, colorSeries, originalData, axes, doneRendering) {
 	var cfg = {
-		 w: 600,	//Width of the circle
-		 h: 600,	//Height of the circle
-		 margin: {top: 20, right: 20, bottom: 20, left: 20}, //The margins of the SVG
-		 levels: 3,		//How many levels or inner circles should there be drawn
-		 maxValue: 0, 			//What is the value that the biggest circle will represent
-		 labelFactor: 1.325, 	//How much farther than the radius of the outer circle should the labels be placed
-		 wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
-		 opacityArea: 0.15, 	//The opacity of the area of the blob
-		 dotRadius: 5, 			//The size of the colored circles of each blog
-		 opacityCircles: 0.15, 	//The opacity of the circles of each blob
-		 strokeWidth: 2, 		//The width of the stroke around each blob
-		 roundStrokes: true,	//If true the area and stroke will follow a round path (cardinal-closed)
-		 color: d3.scale.category10(),	//Color function
-	     legendSide: 'left',	//Side legend appears
-	     glow: 2,				//value controlling glow strength
-	     negatives: true,		//allow negatives to be plotted?
-	     axisColor: "#CDCDCD",	//color of the axis grid lines
-	     backgroundColor: "#CDCDCD",	//background color of chart
-	     negativeR: .81,		//scalar dictating negative axis length
-	     independent: true,		//decouple axes?
-	     axisFont: 2,			//font of the axis labels
-	     scaleFont: 1,			//font of the scale
-	     legendPad: 10,			//separation between legend items
-	     legendFont: .8,			//font of legend items
-	     domainMax: null,
-	     labelScale: true
+		w: 600,	//Width of the circle
+		h: 600,	//Height of the circle
+		margin: {top: 20, right: 20, bottom: 20, left: 20}, //The margins of the SVG
+		levels: 3,		//How many levels or inner circles should there be drawn
+		maxValue: 0, 			//What is the value that the biggest circle will represent
+		labelFactor: 1.325, 	//How much farther than the radius of the outer circle should the labels be placed
+		wrapWidth: 60, 		//The number of pixels after which a label needs to be given a new line
+		opacityArea: 0.15, 	//The opacity of the area of the blob
+		dotRadius: 5, 			//The size of the colored circles of each blog
+		opacityCircles: 0.15, 	//The opacity of the circles of each blob
+		strokeWidth: 2, 		//The width of the stroke around each blob
+		roundStrokes: true,	//If true the area and stroke will follow a round path (cardinal-closed)
+		color: d3.scale.category10(),	//Color function
+	    legendSide: 'left',	//Side legend appears
+	    glow: 2,				//value controlling glow strength
+	    negatives: true,		//allow negatives to be plotted?
+	    axisColor: "#CDCDCD",	//color of the axis grid lines
+	    backgroundColor: "#CDCDCD",	//background color of chart
+	    negativeR: .81,		//scalar dictating negative axis length
+	    independent: true,		//decouple axes?
+	    axisFont: 2,			//font of the axis labels
+	    scaleFont: 1,			//font of the scale
+	    legendPad: 10,			//separation between legend items
+	    legendFont: .8,			//font of legend items
+	    domainMax: null,
+	    labelScale: true,
+		labelFine: 1.2
 	};
 
 	//Put all of the options into a variable called cfg
@@ -768,7 +769,7 @@ const visObject = {
   * data is passed to it.
   **/
 	create: function(element, config){
-		element.innerHTML = `<div style='font-family: "Open Sans", "Noto Sans JP", "Noto Sans", "Noto Sans CJK KR", Helvetica, Arial, sans-serif;'/>`;
+		element.innerHTML = `<div id='viz' style='font-family: "Open Sans", "Noto Sans JP", "Noto Sans", "Noto Sans CJK KR", Helvetica, Arial, sans-serif;'/>`;
 	},
 
  /**
@@ -962,40 +963,41 @@ const visObject = {
   	//var color = d3.scale.ordinal().range(moreData.map((d,index) => config[`${d.label}_color`] ? config[`${d.label}_color`] : [series_default[index]]));
 	var color = d3.scale.ordinal().range(Object.keys(config).filter(function(key){ return key.indexOf('_color') !== -1 }).map(function(d){ return config[d]}));
 
-	var radarChartOptions1 = {
-	  	w: width,
-	  	h: height,
-	  	margin: margin,
-	  	maxValue: 0.5,
-	  	levels: config.levels,
-	  	roundStrokes: config.rounded_strokes,
-	  	color: color,
-	  	axisFont: config.axis_label_font,
-	  	scaleFont: config.axis_scale_font,
-      	labelFactor: config.label_factor*1.5/100,
-      	labelFine: config.label_fine*1.2,
-      	wrapWidth: config.wrap_width,
-      	opacityArea: config.opacity_area/100,
-      	dotRadius: config.dot_radius/5,
-      	opacityCircles: config.opacity_circles/200,
-      	backgroundColor: config.backgroundColor,
-      	axisColor: config.axis_color,
-      	strokeWidth: config.stroke_width/5,
-      	legendSide: config.legend_side,
-      	glow: config.glow/20,
-      	negatives: config.negatives,
-      	axisColor: config.axisColor,
-      	negativeR: config.negative_r,
-      	independent: config.independent,
-      	legendPad: config.legend_padding,
-      	legendFont: config.legend_font,
-      	domainMax: config.domain_max,
-      	labelScale: config.labelScale
-	};
-    //this.trigger('registerOptions', visOptions);
+	let radarChartOptions1 = {}
 
-	//Call function to draw the Radar chart
-    svg.append("g").call(RadarChart("#vis", formattedData, radarChartOptions1, moreData, [], originalData, axes, doneRendering));
+	if (config.levels) {
+		radarChartOptions1 = {
+			w: width,
+			h: height,
+			margin: margin,
+			maxValue: 0.5,
+			levels: config.levels,
+			roundStrokes: config.rounded_strokes,
+			color: color,
+			axisFont: config.axis_label_font,
+			scaleFont: config.axis_scale_font,
+			labelFactor: config.label_factor*1.5/100,
+			labelFine: config.label_fine*1.2,
+			wrapWidth: config.wrap_width,
+			opacityArea: config.opacity_area/100,
+			dotRadius: config.dot_radius/5,
+			opacityCircles: config.opacity_circles/200,
+			backgroundColor: config.backgroundColor,
+			axisColor: config.axis_color,
+			strokeWidth: config.stroke_width/5,
+			legendSide: config.legend_side,
+			glow: config.glow/20,
+			negatives: config.negatives,
+			axisColor: config.axisColor,
+			negativeR: config.negative_r,
+			independent: config.independent,
+			legendPad: config.legend_padding,
+			legendFont: config.legend_font,
+			domainMax: config.domain_max,
+			labelScale: config.labelScale
+		};
+		RadarChart("#vis", formattedData, radarChartOptions1, moreData, [], originalData, axes, doneRendering);
+	}
 	}
 };
 
