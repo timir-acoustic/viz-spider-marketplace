@@ -32,7 +32,8 @@ function RadarChart(id, data, options, moreData, colorSeries, originalData, axes
 	     legendPad: 10,			//separation between legend items
 	     legendFont: .8,			//font of legend items
 	     domainMax: null,
-	     labelScale: true
+	     labelScale: true,
+		 labelFine: 1.2
 	};
 
 	//Put all of the options into a variable called cfg
@@ -962,40 +963,41 @@ const visObject = {
   	//var color = d3.scale.ordinal().range(moreData.map((d,index) => config[`${d.label}_color`] ? config[`${d.label}_color`] : [series_default[index]]));
 	var color = d3.scale.ordinal().range(Object.keys(config).filter(function(key){ return key.indexOf('_color') !== -1 }).map(function(d){ return config[d]}));
 
-	var radarChartOptions1 = {
-	  	w: width,
-	  	h: height,
-	  	margin: margin,
-	  	maxValue: 0.5,
-	  	levels: config.levels,
-	  	roundStrokes: config.rounded_strokes,
-	  	color: color,
-	  	axisFont: config.axis_label_font,
-	  	scaleFont: config.axis_scale_font,
-      	labelFactor: config.label_factor*1.5/100,
-      	labelFine: config.label_fine*1.2,
-      	wrapWidth: config.wrap_width,
-      	opacityArea: config.opacity_area/100,
-      	dotRadius: config.dot_radius/5,
-      	opacityCircles: config.opacity_circles/200,
-      	backgroundColor: config.backgroundColor,
-      	axisColor: config.axis_color,
-      	strokeWidth: config.stroke_width/5,
-      	legendSide: config.legend_side,
-      	glow: config.glow/20,
-      	negatives: config.negatives,
-      	axisColor: config.axisColor,
-      	negativeR: config.negative_r,
-      	independent: config.independent,
-      	legendPad: config.legend_padding,
-      	legendFont: config.legend_font,
-      	domainMax: config.domain_max,
-      	labelScale: config.labelScale
-	};
-    //this.trigger('registerOptions', visOptions);
+	let radarChartOptions1 = {}
 
-	//Call function to draw the Radar chart
-    svg.append("g").call(RadarChart("#vis", formattedData, radarChartOptions1, moreData, [], originalData, axes, doneRendering));
+	if (config.levels) {
+		radarChartOptions1 = {
+			w: width,
+			h: height,
+			margin: margin,
+			maxValue: 0.5,
+			levels: config.levels,
+			roundStrokes: config.rounded_strokes,
+			color: color,
+			axisFont: config.axis_label_font,
+			scaleFont: config.axis_scale_font,
+			labelFactor: config.label_factor*1.5/100,
+			labelFine: config.label_fine*1.2,
+			wrapWidth: config.wrap_width,
+			opacityArea: config.opacity_area/100,
+			dotRadius: config.dot_radius/5,
+			opacityCircles: config.opacity_circles/200,
+			backgroundColor: config.backgroundColor,
+			axisColor: config.axis_color,
+			strokeWidth: config.stroke_width/5,
+			legendSide: config.legend_side,
+			glow: config.glow/20,
+			negatives: config.negatives,
+			axisColor: config.axisColor,
+			negativeR: config.negative_r,
+			independent: config.independent,
+			legendPad: config.legend_padding,
+			legendFont: config.legend_font,
+			domainMax: config.domain_max,
+			labelScale: config.labelScale
+		};
+		RadarChart("#vis", formattedData, radarChartOptions1, moreData, [], originalData, axes, doneRendering);
+	}
 	}
 };
 
