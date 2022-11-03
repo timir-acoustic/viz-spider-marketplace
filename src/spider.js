@@ -769,7 +769,7 @@ const visObject = {
   * data is passed to it.
   **/
 	create: function(element, config){
-		element.innerHTML = `<div style='font-family: "Open Sans", "Noto Sans JP", "Noto Sans", "Noto Sans CJK KR", Helvetica, Arial, sans-serif;'/>`;
+		element.innerHTML = `<div id='viz' style='font-family: "Open Sans", "Noto Sans JP", "Noto Sans", "Noto Sans CJK KR", Helvetica, Arial, sans-serif;'/>`;
 	},
 
  /**
