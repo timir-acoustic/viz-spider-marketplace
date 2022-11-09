@@ -855,7 +855,7 @@ const visObject = {
 	    queryResponse['fields']['measure_like'].forEach(function(d) {
 	      axes.push({
 	        name: d['name'],
-	        label: d['label_short']
+	        label: d['label_short'].trim()
 	      });
 	    });
 	    
@@ -914,7 +914,7 @@ const visObject = {
 	    queryResponse['fields']['measure_like'].forEach(function(d) {
 	      axes.push({
 	        name: d['name'],
-	        label: d['label_short'] ? d['label_short'] : d['label']
+	        label: d['label_short'] ? d['label_short'].trim() : d['label'].trim()
 	      });
 	    });
 	    formattedData = [];
