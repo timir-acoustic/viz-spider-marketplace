@@ -831,10 +831,10 @@ const visObject = {
 	      });
 	      return;
 	    }
-	    if (queryResponse['fields']['measure_like'].length < 3) {
+	    if (queryResponse['fields']['measure_like'].length < 1) {
 	      this.addError({
 	        title: "Multiple measures only.",
-	        message: "This chart requires at least 3 measures."
+	        message: "This chart requires at least 1 measures."
 	      });
 	      return;
 	    }
@@ -893,10 +893,10 @@ const visObject = {
 	      });
 	      return;
 	    }
-	    if (queryResponse['fields']['measure_like'].length < 3) {
+	    if (queryResponse['fields']['measure_like'].length < 1) {
 	      this.addError({
 	        title: "Multiple measures only.",
-	        message: "This chart requires at least 3 measures."
+	        message: "This chart requires at least 1 measures."
 	      });
 	      return;
 	    }
